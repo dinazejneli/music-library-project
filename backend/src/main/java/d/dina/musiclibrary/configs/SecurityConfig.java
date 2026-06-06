@@ -65,25 +65,16 @@ public class SecurityConfig {
                 // ROUTE SECURITY
                 .authorizeHttpRequests(auth -> auth
 
-                        // PUBLIC AUTH
                         .requestMatchers(
                                 "/api/auth/**"
                         ).permitAll()
 
-                        // SWAGGER
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
 
-                        // PUBLIC SONG GET
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/api/songs/**"
-                        ).permitAll()
-
-                        // EVERYTHING ELSE AUTH
                         .anyRequest().authenticated()
                 )
 

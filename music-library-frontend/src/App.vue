@@ -1,9 +1,16 @@
-<script setup></script>
-
 <template>
 
-    <RouterView />
+    <TheLayout>
+
+        <RouterView />
+
+    </TheLayout>
 
 </template>
 
-<style scoped></style>
+<script setup>
+
+import { RouterView } from 'vue-router'
+import TheLayout from '@/components/ui/TheLayout.vue'
+
+</script>

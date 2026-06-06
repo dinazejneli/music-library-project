@@ -60,6 +60,16 @@ public class GlobalExceptionHandler {
                 .body("Invalid or expired token");
     }
 
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<?> handleBusinessException(
+            BusinessException ex
+    ) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
+
     // GENERAL ERRORS
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGeneralException(

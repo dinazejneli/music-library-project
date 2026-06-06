@@ -33,12 +33,19 @@ public class JwtFilter
         final String authHeader =
                 request.getHeader("Authorization");
 
+        System.out.println("=================================");
+        System.out.println("REQUEST: " + request.getMethod()
+                + " " + request.getRequestURI());
+        System.out.println("AUTH HEADER: " + authHeader);
+
         final String jwt;
 
         final String username;
 
         if (authHeader == null
                 || !authHeader.startsWith("Bearer ")) {
+
+            System.out.println("NO TOKEN FOUND");
 
             filterChain.doFilter(request, response);
 
@@ -50,6 +57,8 @@ public class JwtFilter
         username =
                 jwtService.extractUsername(jwt);
 
+        System.out.println("USERNAME FROM TOKEN: " + username);
+
         if (username != null
                 && SecurityContextHolder
                 .getContext()
@@ -59,10 +68,17 @@ public class JwtFilter
                     userDetailsService
                             .loadUserByUsername(username);
 
+            System.out.println(
+                    "AUTHORITIES: "
+                            + userDetails.getAuthorities()
+            );
+
             if (jwtService.isTokenValid(
                     jwt,
                     userDetails
             )) {
+
+                System.out.println("TOKEN VALID");
 
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
@@ -79,6 +95,10 @@ public class JwtFilter
                 SecurityContextHolder
                         .getContext()
                         .setAuthentication(authToken);
+
+                System.out.println(
+                        "AUTHENTICATION SET"
+                );
             }
         }
 

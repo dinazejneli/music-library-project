@@ -14,7 +14,7 @@ public class SongController {
 
     private final SongService songService;
 
-    // GET ALL S  ONGS
+    // GET ALL SONGS
     @GetMapping
     public ResponseEntity<?> getAll() {
 
