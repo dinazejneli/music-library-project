@@ -44,10 +44,9 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
-        return "";
 
-//        return extractAllClaims(token)
-//                .getSubject();
+        return extractAllClaims(token)
+                .getSubject();
     }
 
     public boolean isTokenValid(
@@ -63,12 +62,12 @@ public class JwtService {
         );
     }
 
-//    private Claims extractAllClaims(String token) {
-//
-//        return Jwts.parserBuilder()
-//                .setSigningKey(getSignKey())
-//                .build()
-//                .parseClaimsJws(token)
-//                .getBody();
-//    }
+    private Claims extractAllClaims(String token) {
+
+        return Jwts.parser()
+                .verifyWith((javax.crypto.SecretKey) getSignKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
 }

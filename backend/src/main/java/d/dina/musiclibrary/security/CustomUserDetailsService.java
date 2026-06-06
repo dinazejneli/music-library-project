@@ -16,17 +16,19 @@ public class CustomUserDetailsService
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(
-            String username
-    ) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+
+        System.out.println("LOGIN ATTEMPT FOR: " + username);
 
         var user = userRepository
                 .findByUsername(username)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException(
-                                "User not found"
-                        )
+                        new UsernameNotFoundException("User not found")
                 );
+
+        System.out.println("USER FOUND: " + user.getUsername());
+        System.out.println("HASH: " + user.getPassword());
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),

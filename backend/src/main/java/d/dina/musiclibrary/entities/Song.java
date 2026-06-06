@@ -25,8 +25,11 @@ public class Song {
 
     private Integer duration; // seconds
 
-    @ManyToOne
-    @JoinColumn(name = "album_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(
+            name = "album_id",
+            nullable = false
+    )
     private Album album;
 }
 

@@ -47,15 +47,33 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public SongDto create(SongDto songDto) {
-        Album album = albumRepository.findById(songDto.getAlbumId())
-                .orElseThrow(() -> new RuntimeException("Album not found"));
+
+        if (
+                songRepository
+                        .existsByTitleIgnoreCase(
+                                songDto.getTitle()
+                        )
+        ) {
+
+            throw new RuntimeException(
+                    "Song already exists"
+            );
+        }
+
+        Album album = albumRepository.findById(
+                songDto.getAlbumId()
+        ).orElseThrow(() ->
+                new RuntimeException(
+                        "Album not found"
+                )
+        );
 
         Song song = songMapper.toEntity(songDto);
         song.setAlbum(album);
 
         Song saved = songRepository.save(song);
-        return songMapper.toDto(saved);
 
+        return songMapper.toDto(saved);
     }
 
     @Override
@@ -68,7 +86,7 @@ public class SongServiceImpl implements SongService {
         existing.setArtist(songDto.getArtist());
         existing.setDuration(songDto.getDuration());
 
-        // ✅ update album if changed
+
         if (songDto.getAlbumId() != null) {
             Album album = albumRepository.findById(songDto.getAlbumId())
                     .orElseThrow(() -> new RuntimeException("Album not found"));
@@ -82,7 +100,12 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public void delete(Integer id) {
+
+        System.out.println("DELETE METHOD CALLED");
+
         songRepository.deleteById(id);
+
+        System.out.println("DELETE FINISHED");
     }
 
     public boolean existsByTitle(String title) {

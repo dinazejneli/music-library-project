@@ -21,7 +21,7 @@ public class SongDto {
     private String durationFormatted;
 
 
-    // 👇 THIS is what goes to DB
+
     private Integer duration;
 
     @NotNull(message = "Album is required")
